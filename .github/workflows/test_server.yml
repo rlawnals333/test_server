@@ -1,0 +1,35 @@
+name: Python Script Runner
+
+on:
+  schedule:
+    - cron: "*/3 * * * *"  # 1분마다 실행
+  workflow_dispatch:  # 수동 실행 가능
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때마다 실행
+  pull_request:
+    branches:
+      - main  # main 브랜치로 PR이 생성되었을 때 실행
+
+jobs:
+  run_python:
+    runs-on: ubuntu-latest  # 우분투 환경에서 실행
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # 코드를 체크아웃
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Python 설치
+        with:
+          python-version: '3.9'  # Python 버전 (예: 3.8)
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip  # pip 업그레이드
+          pip install -r requirements.txt  # requirements.txt에 있는 패키지 설치
+
+      - name: Run Python script
+        run: crawling.py  # Python 스크립트 실행
