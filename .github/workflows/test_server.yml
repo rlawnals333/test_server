@@ -7,10 +7,6 @@ on:
   push:
     branches:
       - main  # main 브랜치에 푸시될 때마다 실행
-  pull_request:
-    branches:
-      - main  # main 브랜치로 PR이 생성되었을 때 실행
-
 jobs:
   run_python:
     runs-on: ubuntu-latest  # 우분투 환경에서 실행
